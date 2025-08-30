@@ -25,7 +25,12 @@ DB_NAME = os.getenv("DB_NAME")
 
 DATABASE_URL = f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(DATABASE_URL, 
+                    pool_pre_ping=True,          # 🔹 Checks connection before using it
+                    pool_recycle=280,            # 🔹 Forces recycle to avoid MySQL timeouts (seconds)
+                    pool_size=5,                 # 🔹 Small pool for shared hosting
+                    max_overflow=0,              # 🔹 Prevents too many connections
+                    )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

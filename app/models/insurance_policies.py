@@ -55,6 +55,7 @@ class InsurancePolicyOut(InsurancePolicyBase):
     policy_id: int
     user_id: int
     insured_member_id: int
+    insured_name: str
     created_at: datetime
     updated_at: datetime
 

@@ -38,9 +38,9 @@ class InsurancePolicyBase(BaseModel):
     premium_amount: Optional[float]
     premium_frequency: str
     sum_assured: Optional[float]
-    start_date: Optional[str]
-    next_premium_due_date: Optional[str]
-    maturity_date: Optional[str]
+    start_date: Optional[datetime]
+    next_premium_due_date: Optional[datetime]
+    maturity_date: Optional[datetime]
     lead_days: Optional[int]
     grace_days: Optional[int]
     auto_debit: Optional[bool]

@@ -1,7 +1,10 @@
 from sqlalchemy import Column, Integer, String, Date, Enum, ForeignKey, DECIMAL, Boolean, Text, TIMESTAMP
 from sqlalchemy.sql import func
 from app.config.database import Base
-from datetime import datetime
+from datetime import datetime, date
+# Pydantic Schemas
+from pydantic import BaseModel
+from typing import Optional
 
 class InsurancePolicy(Base):
     __tablename__ = "insurance_policies"
@@ -26,10 +29,6 @@ class InsurancePolicy(Base):
     created_at = Column(TIMESTAMP, server_default=func.now())
     updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
 
-# Pydantic Schemas
-from pydantic import BaseModel
-from typing import Optional
-
 class InsurancePolicyBase(BaseModel):
     policy_name: str
     policy_type: str
@@ -38,9 +37,27 @@ class InsurancePolicyBase(BaseModel):
     premium_amount: Optional[float]
     premium_frequency: str
     sum_assured: Optional[float]
-    start_date: Optional[datetime]
-    next_premium_due_date: Optional[datetime]
-    maturity_date: Optional[datetime]
+    start_date: Optional[date]
+    next_premium_due_date: Optional[date]
+    maturity_date: Optional[date]
+    lead_days: Optional[int] = 7
+    grace_days: Optional[int] = 15
+    auto_debit: Optional[bool] = False
+    policy_status: Optional[str] = "ACTIVE"
+    notes: Optional[str]
+
+class InsurancePolicyUpdate(BaseModel):
+    # All fields optional for partial update
+    policy_name: Optional[str]
+    policy_type: Optional[str]
+    insurer: Optional[str]
+    policy_number: Optional[str]
+    premium_amount: Optional[float]
+    premium_frequency: Optional[str]
+    sum_assured: Optional[float]
+    start_date: Optional[date]
+    next_premium_due_date: Optional[date]
+    maturity_date: Optional[date]
     lead_days: Optional[int]
     grace_days: Optional[int]
     auto_debit: Optional[bool]

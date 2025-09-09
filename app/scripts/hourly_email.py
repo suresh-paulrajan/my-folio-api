@@ -8,10 +8,10 @@ try:
         json={
             "subject": "Hourly Update",
             "body": "<p>This is the scheduled hourly mail.</p>",
-            "to": ["sureshpaulrajan@gmail.com"],
-            "cc": ["sureshkanna.ece@gmail.com","poc@myfolio.catalytix.in"]
+            "to": ["poc@myfolio.catalytix.in"],
+            "cc": []
         },
-        timeout=15
+        timeout=75
     )
     print("Response:", response.json())
     sys.exit(0)

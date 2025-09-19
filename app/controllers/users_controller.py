@@ -14,4 +14,4 @@ def read_users_count(db: Session = Depends(get_db)):
 @router.get("/list", response_model=List[UserOut])
 def fetch_all_users(db: Session = Depends(get_db)):
     users = db.query(User).all()
-    return users
+    return users    

@@ -21,8 +21,8 @@ FREQ_MAP = {
     'SINGLE': None
 }
 
-def list_insurance_policies(db: Session) -> list:
-    return insurance_repository.list_insurance_policies(db)
+def list_insurance_policies(db: Session, user_id: int) -> list:
+    return insurance_repository.list_insurance_policies(db, user_id)
 
 def _to_date(d):
     if d is None:

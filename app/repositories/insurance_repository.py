@@ -4,13 +4,15 @@ from app.models.insurance_policies import InsurancePolicy
 from app.models.members import Member
 from app.models.reminder_tasks import ReminderTask
 
-def list_insurance_policies(db: Session):
+def list_insurance_policies(db: Session, user_id: int) -> list:
     result = db.query(
         InsurancePolicy,
         Member.full_name.label('insured_name')
     ).join(
         Member,
         InsurancePolicy.insured_member_id == Member.member_id
+    ).filter(
+        InsurancePolicy.user_id == user_id
     ).all()
     
     # Convert the result to match the schema

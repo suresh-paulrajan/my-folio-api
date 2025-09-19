@@ -57,6 +57,9 @@ class TokenResponse(BaseModel):
     expires_in: int
     refresh_token: str
     refresh_expires_in: int
+    # optional basic user info to return on login
+    email: Optional[EmailStr] = None
+    name: Optional[str] = None
 
 class LoginRequest(BaseModel):
     username: str

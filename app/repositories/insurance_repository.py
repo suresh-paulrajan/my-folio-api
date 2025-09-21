@@ -32,7 +32,13 @@ def create_policy(db: Session, policy_create: dict) -> InsurancePolicy:
     return policy
 
 def get_policy(db: Session, policy_id: int) -> Optional[InsurancePolicy]:
-    return db.query(InsurancePolicy).filter(InsurancePolicy.policy_id == policy_id).first()
+    return db.query(
+        InsurancePolicy,
+        Member.full_name.label('insured_name')
+    ).join(
+        Member,
+        InsurancePolicy.insured_member_id == Member.member_id
+    ).filter(InsurancePolicy.policy_id == policy_id).first()
 
 def update_policy(db: Session, policy: InsurancePolicy, updates: dict) -> InsurancePolicy:
     for k, v in updates.items():

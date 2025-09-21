@@ -24,6 +24,15 @@ FREQ_MAP = {
 def list_insurance_policies(db: Session, user_id: int) -> list:
     return insurance_repository.list_insurance_policies(db, user_id)
 
+def get_insurance_policy(db: Session, policy_id: int) -> InsurancePolicy:
+    result = repo_get_policy(db, policy_id)
+    if result:
+        policy, insured_name = result
+        # attach dynamic attribute for insured_name
+        setattr(policy, "insured_name", insured_name)
+        return policy
+    return None
+
 def _to_date(d):
     if d is None:
         return None

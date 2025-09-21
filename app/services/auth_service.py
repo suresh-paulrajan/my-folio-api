@@ -44,7 +44,8 @@ def login_user(db: Session, user, client_id: str = None):
         "refresh_token": refresh_plain,
         "refresh_expires_in": REFRESH_TOKEN_EXPIRES_SECONDS,
         "email": email,
-        "name": name
+        "name": name,
+        "user_id": user.user_id
     }
 
 def refresh_access_token(db: Session, refresh_token_plain: str, client_id: str = None):

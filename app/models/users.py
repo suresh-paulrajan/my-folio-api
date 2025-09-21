@@ -60,6 +60,7 @@ class TokenResponse(BaseModel):
     # optional basic user info to return on login
     email: Optional[EmailStr] = None
     name: Optional[str] = None
+    user_id: int
 
 class LoginRequest(BaseModel):
     username: str

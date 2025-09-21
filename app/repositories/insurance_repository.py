@@ -42,7 +42,10 @@ def get_policy(db: Session, policy_id: int) -> Optional[InsurancePolicy]:
 
 def update_policy(db: Session, policy: InsurancePolicy, updates: dict) -> InsurancePolicy:
     for k, v in updates.items():
-        setattr(policy, k, v)
+        if k == 'user_id':
+            continue  # never update user_id
+        if hasattr(policy, k):
+            setattr(policy, k, v)
     db.add(policy)
     return policy
 

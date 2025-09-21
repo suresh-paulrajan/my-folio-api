@@ -126,9 +126,11 @@ def create_insurance_policy(db: Session, payload: dict) -> InsurancePolicy:
     return policy
 
 def update_insurance_policy(db: Session, policy_id: int, updates: dict) -> InsurancePolicy:
-    policy = repo_get_policy(db, policy_id)
-    if not policy:
+
+    result = repo_get_policy(db, policy_id)
+    if not result:
         return None
+    policy, _ = result  # Unpack ORM instance and ignore insured_name
 
     # normalize date inputs
     if updates.get('start_date'):
@@ -167,4 +169,11 @@ def update_insurance_policy(db: Session, policy_id: int, updates: dict) -> Insur
 
     db.commit()
     db.refresh(policy)
+    # Attach insured_name for response model
+    from app.models.members import Member
+    member = db.query(Member).filter(Member.member_id == policy.insured_member_id).first()
+    insured_name = None
+    if member:
+        insured_name = getattr(member, "full_name", None)
+    setattr(policy, "insured_name", insured_name)
     return policy

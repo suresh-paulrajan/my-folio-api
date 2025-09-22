@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.config.database import get_db
 from app.services import auth_service
 from app.repositories import auth_repository
-from app.models.users import TokenResponse, LoginRequest, RefreshRequest, UserCreate
+from app.models.users import TokenResponse, RefreshTokenResponse, LoginRequest, RefreshRequest, UserCreate
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -24,9 +24,11 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
     token_obj = auth_service.login_user(db, user, req.client_id)
     return token_obj
 
-@router.post("/refresh", response_model=TokenResponse)
+@router.post("/refresh", response_model=RefreshTokenResponse)
 def refresh(req: RefreshRequest, db: Session = Depends(get_db)):
     res = auth_service.refresh_access_token(db, req.refresh_token, req.client_id)
+    if not res:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired refresh token")
     return res
 
 @router.post("/logout")

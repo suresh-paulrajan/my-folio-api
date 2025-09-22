@@ -4,7 +4,7 @@ from fastapi.exception_handlers import RequestValidationError
 from fastapi.exceptions import RequestValidationError as FastAPIRequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from app.controllers import users_controller, auth_controller, insurance_controller, email_controller
+from app.controllers import users_controller, auth_controller, insurance_controller, email_controller, members_controller
 from app.config.database import Base, engine
 
 # Create DB tables
@@ -17,6 +17,7 @@ app.include_router(users_controller.router)
 app.include_router(auth_controller.router)
 app.include_router(insurance_controller.router)
 app.include_router(email_controller.router)
+app.include_router(members_controller.router)
 
 # CORS
 origins = [

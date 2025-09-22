@@ -51,6 +51,7 @@ class RefreshToken(Base):
 
     user = relationship("User", back_populates="refresh_tokens")
 
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "Bearer"
@@ -61,6 +62,16 @@ class TokenResponse(BaseModel):
     email: Optional[EmailStr] = None
     name: Optional[str] = None
     user_id: int
+
+# For refresh endpoint (no user_id)
+class RefreshTokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "Bearer"
+    expires_in: int
+    refresh_token: str
+    refresh_expires_in: int
+    email: Optional[EmailStr] = None
+    name: Optional[str] = None
 
 class LoginRequest(BaseModel):
     username: str
